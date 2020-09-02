@@ -7,11 +7,11 @@ class NewsSource(db.Model):
     
     __tablename__='news'
 
-    newsId = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     newsHeadline = db.Column(db.String(30))
     newsArticle = db.Column(db.String(200))
     articleDate = db.Column(db.String(15), onupdate=dt.now())
-    newsArticleId = db.Column(db.Integer, db.ForeignKey('news.Id'))
+    newsArticleId = db.Column(db.Integer, db.ForeignKey('news.id'))
 
     def __init__(self, newsHeadline, newsArticle, articleDate, newsArticleId):
         self.newsHeadline = newsHeadline
@@ -28,7 +28,7 @@ class NewsSource(db.Model):
             }
     @classmethod
     def findNewsById(cls, newsArticleId):
-        return cls.query.filter_by(newsId=newsArticleId).first()
+        return cls.query.filter_by(Id=newsArticleId).first()
 
     @classmethod
     def findNewsByHeadline(cls, newsHeadline):

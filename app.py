@@ -4,7 +4,7 @@ from flask import Flask
 from flask_restful import Api
 #from flask_jwt_extended import JWTManager
 
-from resources.news import NewsSource, NewsList 
+from resources.news import News, NewsList 
 
 from db import db
 
@@ -19,9 +19,19 @@ app.secret_key = 'Z5dsads77730j'
 api = Api(app)
 #jwt = JWTManager(app)
 
-api.add_resource(NewsList,'/NewsList')
+api.add_resource(NewsList,'/newslist')
+api.add_resource(News, '/postnews/<string:newsHeadline>')
 
 if __name__=="__main__":
+    db.init_app(app)
+
+    @app.before_first_request
+    def create_tables():
+        try:
+            db.create_all()
+        except:
+            print("UUPS Something went seriously wrong")
+
     app.run(port=5050)
 
 
