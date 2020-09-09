@@ -5,13 +5,13 @@ from datetime import datetime as dt
 
 class NewsSource(db.Model):
     
-    __tablename__='news'
+    __tablename__='NewsSource'
 
     id = db.Column(db.Integer, primary_key=True)
     newsHeadline = db.Column(db.String(30))
-    newsArticle = db.Column(db.String(200))
+    newsArticle = db.Column(db.String(2000))
     articleDate = db.Column(db.String(15), onupdate=dt.now())
-    newsArticleId = db.Column(db.Integer, db.ForeignKey('news.id'))
+    newsArticleId = db.Column(db.Integer, db.ForeignKey('NewsSource.id'))
 
     def __init__(self, newsHeadline, newsArticle, articleDate, newsArticleId):
         self.newsHeadline = newsHeadline
@@ -23,12 +23,13 @@ class NewsSource(db.Model):
         return {
                 'newsHeadline':self.newsHeadline,
                 'newsArticle':self.newsArticle,
-                'date':self.articleDate,
-                'articleDate':self.newsArticleId
+                'articleDate':self.articleDate,
+                'newsArticleId':self.newsArticleId
             }
+        
     @classmethod
     def findNewsById(cls, newsArticleId):
-        return cls.query.filter_by(Id=newsArticleId).first()
+        return cls.query.filter_by(id=newsArticleId).first()
 
     @classmethod
     def findNewsByHeadline(cls, newsHeadline):
