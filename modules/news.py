@@ -10,12 +10,18 @@ class NewsSource(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     newsHeadline = db.Column(db.String(30))
     newsArticle = db.Column(db.String(2000))
+    newsPolarityNeg = db.Column(db.Float)
+    newsPolarityPos = db.Column(db.Float)
+    newsPolarityNeu = db.Column(db.Float)
     articleDate = db.Column(db.String(15), onupdate=dt.now())
     newsArticleId = db.Column(db.Integer, db.ForeignKey('NewsSource.id'))
 
-    def __init__(self, newsHeadline, newsArticle, articleDate, newsArticleId):
+    def __init__(self, newsHeadline, newsArticle, newsPolarityNeg, newsPolarityPos, newsPolarityNeu, articleDate, newsArticleId):
         self.newsHeadline = newsHeadline
         self.newsArticle = newsArticle
+        self.newsPolarityNeg = newsPolarityNeg
+        self.newsPolarityPos = newsPolarityPos
+        self.newsPolarityNeu = newsPolarityNeu
         self.articleDate = articleDate
         self.newsArticleId = newsArticleId
 
@@ -24,6 +30,9 @@ class NewsSource(db.Model):
                 'newsHeadline':self.newsHeadline,
                 'newsArticle':self.newsArticle,
                 'articleDate':self.articleDate,
+                'newsPolarityNeg':self.newsPolarityNeg,
+                'newsPolarityPos':self.newsPolarityPos,
+                'newsPolarityNeu':self.newsPolarityNeu,
                 'newsArticleId':self.newsArticleId
             }
         

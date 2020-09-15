@@ -9,6 +9,9 @@ class News(Resource):
     parser = reqparse.RequestParser()
     #parser.add_argument('newsHeadline', type=str, required=True, help="You Must add Headline")
     parser.add_argument('newsArticle', type=str, required=True, help="Article must be addes")
+    parser.add_argument('newsPolarityNeg',type=float,required=False,help="Polarity neg must be added")
+    parser.add_argument('newsPolarityPos',type=float,required=False,help="Polarity pos must be added")
+    parser.add_argument('newsPolarityNeu',type=float,required=False,help="Polarity neu must be added")
     parser.add_argument('articleDate',type=str,required=False,help="Date must be added")
     parser.add_argument('newsArticleId',type=int,required=False,help="ID must be added")
 
