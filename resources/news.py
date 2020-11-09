@@ -9,6 +9,7 @@ class News(Resource):
     parser = reqparse.RequestParser()
     #parser.add_argument('newsHeadline', type=str, required=True, help="You Must add Headline")
     parser.add_argument('newsArticle', type=str, required=True, help="Article must be addes")
+    parser.add_argument('newsArticleWWW', type=str, required=True, help="Article WWWW must be addes")
     parser.add_argument('newsPolarityNeg',type=float,required=False,help="Polarity neg must be added")
     parser.add_argument('newsPolarityPos',type=float,required=False,help="Polarity pos must be added")
     parser.add_argument('newsPolarityNeu',type=float,required=False,help="Polarity neu must be added")
@@ -24,7 +25,7 @@ class News(Resource):
     def post(self, newsHeadline):
         newsData = News.parser.parse_args()
         newsData['articleDate'] = dt.now()  
-        newsData['newsArticleId'] = len(newsHeadline) + len(newsData['newsArticle']) + rnd.randint(1,len(newsData['newsArticle'])) 
+        newsData['newsArticleId'] = rnd.randint(1,len(newsHeadline)*1000) + rnd.randint(1,len(newsData['newsArticle'])*2) 
     
         news = NewsSource(newsHeadline, **newsData)
         
