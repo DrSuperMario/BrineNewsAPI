@@ -22,8 +22,9 @@ api = Api(app)
 api.add_resource(NewsList,'/newslist')
 api.add_resource(News, '/postnews/<string:newsHeadline>')
 
+db.init_app(app)
+
 if __name__=="__main__":
-    db.init_app(app)
 
     @app.before_first_request
     def create_tables():
