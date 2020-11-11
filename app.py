@@ -10,7 +10,7 @@ from db import db
 
 app = Flask(__name__)
 
-app.config['DEBUG'] = False
+app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXEPTIONS'] = True
@@ -23,16 +23,14 @@ api.add_resource(NewsList,'/newslist')
 api.add_resource(News, '/postnews/<string:newsHeadline>')
 
 db.init_app(app)
+@app.before_first_request
+def create_tables():
+    try:
+        db.create_all()
+    except:
+        print("UUPS Something went seriously wrong")
 
 if __name__=="__main__":
-
-    @app.before_first_request
-    def create_tables():
-        try:
-            db.create_all()
-        except:
-            print("UUPS Something went seriously wrong")
-
     app.run(threaded=True, port=5000)
 
 
