@@ -41,7 +41,7 @@ class NewsSource(db.Model):
         
     @classmethod
     def findNewsById(cls, newsArticleId):
-        return cls.query.filter_by(id=newsArticleId).first()
+        return cls.query.filter_by(newsArticleId=newsArticleId).first()
 
     @classmethod
     def findNewsByHeadline(cls, newsHeadline):

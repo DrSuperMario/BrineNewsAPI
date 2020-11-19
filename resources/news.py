@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse
+from flask_jwt_extended import jwt_required
 from modules.news import NewsSource
 
 from datetime import datetime as dt
@@ -22,6 +23,7 @@ class News(Resource):
             return newsHeadline.json()
         return {"message":"News Headline not found"}, 404
 
+    @jwt_required
     def post(self, newsHeadline):
         newsData = News.parser.parse_args()
         newsData['articleDate'] = dt.now()  
@@ -35,6 +37,21 @@ class News(Resource):
             return {"message":"An error occured while loading"}, 400
         
         return news.json(), 201
+
+    @jwt_required
+    def delete(self, newsArticleId):
+        news_id = NewsSource.findNewsById(newsArticleId)
+        
+        try:
+            if news_id:
+                news_id.deleteNewsFromDb()
+            else:
+                return {"message":f"id {newsArticleId} was not found in database"},400
+            
+            return {"nessage":f"id {newsArticleId} deleted from database"},200
+        
+        except:
+            return {"Someting went wrong with deletion"},400
 
 class NewsList(Resource):
     def get(self):
