@@ -8,34 +8,46 @@ class NewsSource(db.Model):
     __tablename__='NewsSource'
 
     id = db.Column(db.Integer, primary_key=True)
-    newsHeadline = db.Column(db.String(30))
+    newsHeadline = db.Column(db.String(60))
     newsArticle = db.Column(db.String(2000))
     newsArticleWWW = db.Column(db.String(200))
     newsPolarityNeg = db.Column(db.Float)
     newsPolarityPos = db.Column(db.Float)
     newsPolarityNeu = db.Column(db.Float)
-    articleDate = db.Column(db.String(15), onupdate=dt.now())
-    newsArticleId = db.Column(db.Integer, db.ForeignKey('NewsSource.id'))
+    creationDate = db.Column(db.String(15))
+    articleDate = db.Column(db.String(15), onupdate=dt.strftime(dt.now(), "%d-%m-%Y %H:%M"))
+    newsArticleId = db.Column(db.String(150), db.ForeignKey('NewsSource.id'))
 
-    def __init__(self, newsHeadline, newsArticle, newsArticleWWW, newsPolarityNeg, newsPolarityPos, newsPolarityNeu, articleDate, newsArticleId):
+    def __init__(self, 
+                 newsHeadline, 
+                 newsArticle,
+                 newsArticleWWW, 
+                 newsPolarityNeg, 
+                 newsPolarityPos, 
+                 newsPolarityNeu,
+                 creationDate, 
+                 articleDate, 
+                 newsArticleId):
+
         self.newsHeadline = newsHeadline
         self.newsArticle = newsArticle
         self.newsArticleWWW = newsArticleWWW
         self.newsPolarityNeg = newsPolarityNeg
         self.newsPolarityPos = newsPolarityPos
         self.newsPolarityNeu = newsPolarityNeu
+        self.creationDate = creationDate
         self.articleDate = articleDate
         self.newsArticleId = newsArticleId
 
     def json(self):
         return {
-                'newsHeadline':self.newsHeadline,
                 'newsArticle':self.newsArticle,
                 'newsArticleWWW':self.newsArticleWWW,
                 'articleDate':self.articleDate,
                 'newsPolarityNeg':self.newsPolarityNeg,
                 'newsPolarityPos':self.newsPolarityPos,
                 'newsPolarityNeu':self.newsPolarityNeu,
+                'creationDate':self.creationDate,
                 'newsArticleId':self.newsArticleId
             }
         
@@ -46,6 +58,10 @@ class NewsSource(db.Model):
     @classmethod
     def findNewsByHeadline(cls, newsHeadline):
         return cls.query.filter_by(newsHeadline=newsHeadline).first()
+
+    @classmethod
+    def findNewsByDate(cls, articleDate):
+        return cls.query.filter_by(articleDate=articleDate).first()    
 
     def saveNewsToDb(self):
         db.session.add(self)

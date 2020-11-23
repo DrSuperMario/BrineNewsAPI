@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse
 from flask_jwt_extended import jwt_required
 from modules.news import NewsSource
 
+from uuid import uuid4
 from datetime import datetime as dt
 import random as rnd
 
@@ -14,22 +15,23 @@ class News(Resource):
     parser.add_argument('newsPolarityNeg',type=float,required=False,help="Polarity neg must be added")
     parser.add_argument('newsPolarityPos',type=float,required=False,help="Polarity pos must be added")
     parser.add_argument('newsPolarityNeu',type=float,required=False,help="Polarity neu must be added")
+    parser.add_argument('creationDate',type=str,required=False,help="creation date must be added")
     parser.add_argument('articleDate',type=str,required=False,help="Date must be added")
-    parser.add_argument('newsArticleId',type=int,required=False,help="ID must be added")
+    parser.add_argument('newsArticleId',type=str,required=False,help="ID must be added")
 
-    def get(self, newsHeadline):
-        newsHeadline = NewsSource.findNewsById(newsHeadline)
-        if newsHeadline:
-            return newsHeadline.json()
+    def get(self, newsArticleId):
+        newsArticleId = NewsSource.findNewsById(newsArticleId)
+        if newsArticleId:
+            return newsArticleId.json()
         return {"message":"News Headline not found"}, 404
 
     @jwt_required
-    def post(self, newsHeadline):
+    def post(self, newsArticleId):
         newsData = News.parser.parse_args()
-        newsData['articleDate'] = dt.now()  
-        newsData['newsArticleId'] = rnd.randint(1,len(newsHeadline)*1000) + rnd.randint(1,len(newsData['newsArticle'])*2) 
+        newsData['articleDate'] = dt.strftime(dt.now(), "%d-%m-%Y %H:%M")
+        newsData['newsArticleId'] = rnd.randint(1,len(newsData['newsArticle'])*1000) + rnd.randint(1,len(newsData['newsArticle'])*2) 
     
-        news = NewsSource(newsHeadline, **newsData)
+        news = NewsSource(newsArticleId, **newsData)
         
         try:
             news.saveNewsToDb()

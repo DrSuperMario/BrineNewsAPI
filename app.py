@@ -22,7 +22,7 @@ api = Api(app)
 jwt = JWTManager(app)
 
 api.add_resource(NewsList,'/newslist')
-api.add_resource(News, '/news/<int:newsArticleId>')
+api.add_resource(News, '/news/<string:newsArticleId>')
 #api.add_resource(News, '/updatenews/<int:newsArticleId>')
 api.add_resource(AdminRegister,'/handsoff')
 api.add_resource(AdminLogin,'/login')
