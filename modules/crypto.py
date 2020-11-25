@@ -6,6 +6,7 @@ from datetime import datetime as dt
 class CryptoSource(db.Model):
 
     __bind_key__ = 'crypto'
+    __tablename__ = 'crypto'
     
     id = db.Column(db.Integer, primary_key=True, info={'bind_key':'crypto'})
     cryptoHeadline = db.Column(db.String(20), info={'bind_key':'crypto'})

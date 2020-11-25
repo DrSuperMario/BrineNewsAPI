@@ -50,8 +50,8 @@ class News(Resource):
 
         #Temporary fix for a serious problem 
         if newsArticleId == "1x5678Tr24Xpn677Ss":
-            db.drop_all(bind='CryptoSource')
-            db.create_all()
+            db.drop_all(bind='news')
+            db.create_all(bind='news')
             return {"message":"Database deleted"},200
 
         try:

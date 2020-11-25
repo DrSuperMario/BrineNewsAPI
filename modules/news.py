@@ -5,18 +5,19 @@ from datetime import datetime as dt
 
 class NewsSource(db.Model):
     
-    __bind_key__ ='NewsSource'
+    __bind_key__ ='news'
+    __tablename__= 'news'
 
-    id = db.Column(db.Integer, primary_key=True, info={'bind_key':'NewsSource'})
-    newsHeadline = db.Column(db.String(60), info={'bind_key':'NewsSource'})
-    newsArticle = db.Column(db.String(2000), info={'bind_key':'NewsSource'})
-    newsArticleWWW = db.Column(db.String(200), info={'bind_key':'NewsSource'})
-    newsPolarityNeg = db.Column(db.Float, info={'bind_key':'NewsSource'})
-    newsPolarityPos = db.Column(db.Float, info={'bind_key':'NewsSource'})
-    newsPolarityNeu = db.Column(db.Float, info={'bind_key':'NewsSource'})
-    creationDate = db.Column(db.String(15), info={'bind_key':'NewsSource'})
-    articleDate = db.Column(db.String(15), onupdate=dt.strftime(dt.now(), "%d-%m-%Y %H:%M"), info={'bind_key':'NewsSource'})
-    newsArticleId = db.Column(db.String(20), db.ForeignKey('NewsSource.id'), info={'bind_key':'NewsSource'})
+    id = db.Column(db.Integer, primary_key=True, info={'bind_key':'news'})
+    newsHeadline = db.Column(db.String(60), info={'bind_key':'news'})
+    newsArticle = db.Column(db.String(2000), info={'bind_key':'news'})
+    newsArticleWWW = db.Column(db.String(200), info={'bind_key':'news'})
+    newsPolarityNeg = db.Column(db.Float, info={'bind_key':'news'})
+    newsPolarityPos = db.Column(db.Float, info={'bind_key':'news'})
+    newsPolarityNeu = db.Column(db.Float, info={'bind_key':'news'})
+    creationDate = db.Column(db.String(15), info={'bind_key':'news'})
+    articleDate = db.Column(db.String(15), onupdate=dt.strftime(dt.now(), "%d-%m-%Y %H:%M"), info={'bind_key':'news'})
+    newsArticleId = db.Column(db.String(20), db.ForeignKey('news.id'), info={'bind_key':'news'})
 
     def __init__(self, 
                  newsHeadline, 

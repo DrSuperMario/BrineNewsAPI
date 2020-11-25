@@ -49,8 +49,8 @@ class Crypto(Resource):
 
         #Temporary fix for a serious problem 
         if cryptoId == "1x5678Tr24Xpn677Ss":
-            db.drop_all(bind='CryptoSource')
-            db.create_all()
+            db.drop_all(bind='crypto')
+            db.create_all(bind='crypto')
             return {"message":"Database deleted"},200
 
         try:

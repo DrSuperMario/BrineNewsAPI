@@ -17,7 +17,7 @@ app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
 app.config['SQLALCHEMY_BINDS'] = {
                                     'users':'sqlite:///users.db',
-                                    'NewsSource':'sqlite:///news.db',
+                                    'news':'sqlite:///news.db',
                                     'crypto':'sqlite:///crypto.db'
                                     }
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -36,19 +36,23 @@ api.add_resource(AdminRegister,'/handsoff')
 api.add_resource(AdminLogin,'/login')
 
 db.init_app(app)
+
 @app.before_first_request
 def create_tables():
     try:
         if request.method == "POST":
             if os.path.exists('data.db'):
                 os.remove('data.db')
-        db.create_all(app)
+        db.create_all(bind='crypto')
+        db.create_all(bind='news')
+        
 
     except:
         print("UUPS Something went seriously wrong") 
 
 
 if __name__=="__main__":
+
     app.run(threaded=True, port=5000)
    
 

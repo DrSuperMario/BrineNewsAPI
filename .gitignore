@@ -3,3 +3,6 @@ modules/__pycache__/__init__.cpython-37.pyc
 __pycache__/db.cpython-37.pyc
 *.pyc
 
+news.db
+users.db
+crypto.db
