@@ -5,18 +5,18 @@ from datetime import datetime as dt
 
 class NewsSource(db.Model):
     
-    __tablename__='NewsSource'
+    __bind_key__ ='NewsSource'
 
-    id = db.Column(db.Integer, primary_key=True)
-    newsHeadline = db.Column(db.String(60))
-    newsArticle = db.Column(db.String(2000))
-    newsArticleWWW = db.Column(db.String(200))
-    newsPolarityNeg = db.Column(db.Float)
-    newsPolarityPos = db.Column(db.Float)
-    newsPolarityNeu = db.Column(db.Float)
-    creationDate = db.Column(db.String(15))
-    articleDate = db.Column(db.String(15), onupdate=dt.strftime(dt.now(), "%d-%m-%Y %H:%M"))
-    newsArticleId = db.Column(db.String(150), db.ForeignKey('NewsSource.id'))
+    id = db.Column(db.Integer, primary_key=True, info={'bind_key':'NewsSource'})
+    newsHeadline = db.Column(db.String(60), info={'bind_key':'NewsSource'})
+    newsArticle = db.Column(db.String(2000), info={'bind_key':'NewsSource'})
+    newsArticleWWW = db.Column(db.String(200), info={'bind_key':'NewsSource'})
+    newsPolarityNeg = db.Column(db.Float, info={'bind_key':'NewsSource'})
+    newsPolarityPos = db.Column(db.Float, info={'bind_key':'NewsSource'})
+    newsPolarityNeu = db.Column(db.Float, info={'bind_key':'NewsSource'})
+    creationDate = db.Column(db.String(15), info={'bind_key':'NewsSource'})
+    articleDate = db.Column(db.String(15), onupdate=dt.strftime(dt.now(), "%d-%m-%Y %H:%M"), info={'bind_key':'NewsSource'})
+    newsArticleId = db.Column(db.String(20), db.ForeignKey('NewsSource.id'), info={'bind_key':'NewsSource'})
 
     def __init__(self, 
                  newsHeadline, 
@@ -52,7 +52,7 @@ class NewsSource(db.Model):
             }
         
     @classmethod
-    def findNewsById(cls, newsArticleId):
+    def findNewsById(cls,newsArticleId):
         return cls.query.filter_by(newsArticleId=newsArticleId).first()
 
     @classmethod
@@ -61,8 +61,8 @@ class NewsSource(db.Model):
 
     @classmethod
     def findNewsByDate(cls, articleDate):
-        return cls.query.filter_by(articleDate=articleDate).first()    
-
+        return cls.query.filter_by(articleDate=articleDate).first()   
+        
     def saveNewsToDb(self):
         db.session.add(self)
         db.session.commit()
@@ -70,3 +70,4 @@ class NewsSource(db.Model):
     def deleteNewsFromDb(self):
         db.session.delete(self)
         db.session.commit()
+
