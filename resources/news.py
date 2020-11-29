@@ -18,7 +18,7 @@ class News(Resource):
     parser.add_argument('newsPolarityNeu',type=float,required=False,help="Polarity neu must be added")
     parser.add_argument('creationDate',type=str,required=False,help="creation date must be added")
     parser.add_argument('articleDate',type=str,required=False,help="Date must be added")
-    parser.add_argument('newsArticleId',type=str,required=False,help="ID must be added")
+    parser.add_argument('newsArticleId',type=int,required=False,help="ID must be added")
 
     def get(self, newsArticleId):
         newsArticleId = NewsSource.findNewsById(newsArticleId)

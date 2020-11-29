@@ -17,7 +17,7 @@ class NewsSource(db.Model):
     newsPolarityNeu = db.Column(db.Float, info={'bind_key':'news'})
     creationDate = db.Column(db.String(15), info={'bind_key':'news'})
     articleDate = db.Column(db.String(15), onupdate=dt.strftime(dt.now(), "%d-%m-%Y %H:%M"), info={'bind_key':'news'})
-    newsArticleId = db.Column(db.String(20), db.ForeignKey('news.id'), info={'bind_key':'news'})
+    newsArticleId = db.Column(db.Integer, db.ForeignKey('news.id'), info={'bind_key':'news'})
 
     def __init__(self, 
                  newsHeadline, 

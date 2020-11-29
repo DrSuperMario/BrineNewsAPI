@@ -17,7 +17,7 @@ class CryptoSource(db.Model):
     cryptoVolume = db.Column(db.String(20), info={'bind_key':'crypto'})
     cryptoCirculation = db.Column(db.String(20), info={'bind_key':'crypto'})
     cryptoCreationDate = db.Column(db.String(20), onupdate=dt.strftime(dt.now(), "%d-%m-%Y %H:%M"), info={'bind_key':'crypto'})
-    cryptoId = db.Column(db.String(20), db.ForeignKey('crypto.id'), info={'bind_key':'crypto'})
+    cryptoId = db.Column(db.Integer, db.ForeignKey('crypto.id'), info={'bind_key':'crypto'})
 
     def __init__(self,
                  cryptoHeadline,

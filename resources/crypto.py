@@ -17,7 +17,7 @@ class Crypto(Resource):
     parser.add_argument('cryptoVolume',type=str,required=False,help="Polarity neu must be added")
     parser.add_argument('cryptoCirculation',type=str,required=False,help="creation date must be added")
     parser.add_argument('cryptoCreationDate',type=str,required=False,help="Date must be added")
-    parser.add_argument('cryptoId',type=str,required=False,help="ID must be added")
+    parser.add_argument('cryptoId',type=int,required=False,help="ID must be added")
 
     def get(self, cryptoId):
         cryptoId = CryptoSource.findCryptoById(cryptoId)
