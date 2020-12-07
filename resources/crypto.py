@@ -72,7 +72,7 @@ class Crypto(Resource):
         
         try:
             if crypto_id is None:
-                crypto_id = CrycryptoId = CryptoSource(cryptoId, **cryptoData)
+                crypto_id = CryptoSource(cryptoId, **cryptoData)
                 crypto_id.saveCryptoToDb()
                 return {"message":f"{cryptoId} id added to the databse"},201
             else:
