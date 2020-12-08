@@ -45,46 +45,46 @@ class Forex(Resource):
         return forex.json(), 201
 
 
-#@jwt_required
-def delete(forexId):
-    forex_id =  ForexSource.findForexById(forexId)
+    #@jwt_required
+    def delete(self, forexId):
+        forex_id =  ForexSource.findForexById(forexId)
 
-    #Temporary fix for a serious problem 
-    if forexId == "1x5678Tr24Xpn677Ss":
-        db.drop_all(bind='forex')
-        db.create_all(bind='forex')
-        return {"message":"Database deleted"},200
+        #Temporary fix for a serious problem 
+        if forexId == "1x5678Tr24Xpn677Ss":
+            db.drop_all(bind='forex')
+            db.create_all(bind='forex')
+            return {"message":"Database deleted"},200
 
-    try:
-        if forex_id:
-            forex_id.deleteForexFromDb()
-        else:
-            return {"message":f"id {forexId} was not found in database"},400
+        try:
+            if forex_id:
+                forex_id.deleteForexFromDb()
+            else:
+                return {"message":f"id {forexId} was not found in database"},400
+            
+            return {"nessage":f"id {forexId} deleted from database"},200
         
-        return {"nessage":f"id {forexId} deleted from database"},200
-    
-    except:
-        return {"Someting went wrong with deletion"},500
+        except:
+            return {"Someting went wrong with deletion"},500
 
-#@jwt_required
-def put(forexId):
+    #@jwt_required
+    def put(self, forexId):
 
-    forexData = Forex.parser.parse_args()
-    forex_id =  ForexSource.findForexById(forexId)
-    
-    try:
-        if forex_id is None:
-            forex_id = ForexSource(forexId, **forexData)
-            forex_id.saveForexToDb()
-            return {"message":f"{forexId} id added to the databse"},201
-        else:
-            pass
+        forexData = Forex.parser.parse_args()
+        forex_id =  ForexSource.findForexById(forexId)
+        
+        try:
+            if forex_id is None:
+                forex_id = ForexSource(forexId, **forexData)
+                forex_id.saveForexToDb()
+                return {"message":f"{forexId} id added to the databse"},201
+            else:
+                pass
 
-    except:
-        return {"message":f"couldent find {forexId} id"}, 500
+        except:
+            return {"message":f"couldent find {forexId} id"}, 500
 
-    forex_id.saveForexToDb()
-    return forex_id.json()
+        forex_id.saveForexToDb()
+        return forex_id.json()
         
 class ForexList(Resource):
     def get(self):
