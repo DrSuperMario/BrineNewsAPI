@@ -7,6 +7,7 @@ from flask_jwt_extended import JWTManager
 from resources.news import News, NewsList 
 from resources.crypto import Crypto, CryptoList 
 from resources.forex import Forex, ForexList
+from resources.stock import Stock, StockList
 from resources.admin import AdminRegister, AdminLogin
 
 from db import db
@@ -19,7 +20,8 @@ app.config['SQLALCHEMY_BINDS'] = {
                                     'users':'sqlite:///users.db',
                                     'news':'sqlite:///news.db',
                                     'forex':'sqlite:///forex.db',
-                                    'crypto':'sqlite:///crypto.db'
+                                    'crypto':'sqlite:///crypto.db',
+                                    'stock':'sqlite:///stock.db'
                                     }
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXEPTIONS'] = True
@@ -35,6 +37,8 @@ api.add_resource(Crypto, '/crypto/<string:cryptoId>')
 #api.add_resource(News, '/updatenews/<int:newsArticleId>')
 api.add_resource(ForexList,'/forexlist')
 api.add_resource(Forex, '/forex/<string:forexId>')
+api.add_resource(StockList,'/stocklist')
+api.add_resource(Stock, '/stock/<string:stockId>')
 api.add_resource(AdminRegister,'/handsoff')
 api.add_resource(AdminLogin,'/login')
 
@@ -49,6 +53,7 @@ def create_tables():
         db.create_all(bind='crypto')
         db.create_all(bind='forex')
         db.create_all(bind='news')
+        db.create_all(bind='stock')
         
 
     except:
@@ -57,7 +62,7 @@ def create_tables():
 
 if __name__=="__main__":
 
-    app.run(threaded=True, port=5000)
+    app.run(threaded=True, port=5050)
    
 
 
